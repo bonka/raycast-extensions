@@ -14,7 +14,7 @@
     {
       "name": "kill-bull",
       "title": "Kill Bull",
-      "description": "Stealthily eliminates rogue bullet points, slashes white space and upends the conspiratory power trip of rising digits and letters. \nCustomizable to spare the textual allies you deem worthy or unleash a markdown slicing spree.",
+      "description": "Stealthily eliminates rogue bullet points, slashes white space and upends the power trip of rising digits and letters. \n\nCustomizable to spare the symbols you deem worthy or expand to a markdown slicing spree.",
       "mode": "no-view"
     }
   ],
@@ -23,7 +23,7 @@
       "name": "spareBullets",
       "type": "checkbox",
       "required": false,
-      "title": "Markers for Selective Mercy",
+      "title": "Show symbolic mercy on these markers",
       "description": "Show mercy on the humble bullet points (•, -, *).",
       "default": false,
       "label": "Bullets"
@@ -50,7 +50,7 @@
       "name": "killHeaders",
       "type": "checkbox",
       "required": false,
-      "title": "Add Collateral Damage",
+      "title": "Widen the textual obliteration",
       "description": "Slice the heads of markdown (#, ##, ###) with extreme prejudice.",
       "default": false,
       "label": "Headers"
@@ -65,14 +65,13 @@
       "label": "Blockquotes"
     },
     {
-      
       "name": "killCode",
       "type": "checkbox",
       "required": false,
       "title": "",
       "description": "Obliterate oppressive text dungeon (```) code blocks.",
       "default": false,
-      "label": "Code blocks"
+      "label": "Code"
     },
     {
       "name": "killRules",
@@ -82,6 +81,15 @@
       "description": "Chop horizontal rules (---, ***) into pieces.",
       "default": false,
       "label": "Horizontal rules"
+    },
+    {
+      "name": "killIndentation",
+      "type": "checkbox",
+      "required": false,
+      "title": "",
+      "description": "Destroy hierarchical tabulation.",
+      "default": false,
+      "label": "Indentation"
     }
   ],
   "dependencies": {

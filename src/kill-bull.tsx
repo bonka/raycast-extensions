@@ -40,6 +40,7 @@ interface Preferences {
   killQuotes: boolean;
   killCode: boolean;
   killRules: boolean;
+  killIndentation: boolean;
 }
 
 export default async function Command() {
@@ -81,26 +82,19 @@ export default async function Command() {
       .map((line, index, array) => {
         // Handle code blocks specially
         if (preferences.killCode) {
+          // Check if line starts with three backticks
+          if (line.trim().startsWith('```')) {
+            // Remove all three backticks
+            killed++;
+            if (!killedTypes.includes('code')) killedTypes.push('code');
+            return line.replace(/^\s*```/, '');
+          }
           // Check for single-line code block (backtick followed by letter)
           if (EXCLUSIONS.code.test(line)) {
             // Remove the backtick but keep everything after it
             killed++;
             if (!killedTypes.includes('code')) killedTypes.push('code');
             return line.replace(EXCLUSIONS.code, '$1');
-          }
-          // Check for multi-line code block (three backticks)
-          if (EXCLUSIONS.codeBlock.test(line)) {
-            // Find the closing fence
-            const closingIndex = array.findIndex((l, i) => 
-              i > index && l.trim() === '```'
-            );
-            if (closingIndex !== -1) {
-              // Mark this line and the closing line for removal
-              killed += 2;
-              if (!killedTypes.includes('code')) killedTypes.push('code');
-              // Return empty string for this line (opening fence)
-              return '';
-            }
           }
           // If we're past the opening fence and before the closing fence, keep the line
           const openingIndex = array.findIndex(l => EXCLUSIONS.codeBlock.test(l));
@@ -121,7 +115,14 @@ export default async function Command() {
         if (!preferences.spareBullets && BULLET_PATTERN.test(line)) {
           killed++;
           if (!killedTypes.includes('bullets')) killedTypes.push('bullets');
-          return line.replace(BULLET_PATTERN, '$4'); // Return only content
+          // Get the indentation level from the bullet pattern match
+          const match = line.match(BULLET_PATTERN);
+          if (match) {
+            // If killIndentation is enabled, don't add any indentation
+            const tabIndent = preferences.killIndentation ? '' : (match[1] ? '\t' : '');
+            return tabIndent + match[4]; // Return appropriate indentation + content
+          }
+          return line.replace(BULLET_PATTERN, '$4'); // Fallback to content only
         }
         
         // Check for numbers if enabled
