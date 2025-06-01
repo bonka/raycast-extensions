@@ -1,7 +1,7 @@
 {
   "name": "kill-bull",
   "title": "Bullet Point Killer",
-  "description": "Slice and kill annoying bullet points and indentation from text with razor sharp precision.",
+  "description": "Exterminate bullet points and indentation from text with razor sharp precision.",
   "icon": "kill-bull-icon.png",
   "author": "bonka",
   "categories": [
@@ -9,12 +9,12 @@
   ],
   "license": "MIT",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "commands": [
     {
       "name": "kill-bull",
       "title": "Kill Bull",
-      "description": "Stealthily eliminates rogue bullet points, slashes white space and upends the power trip of rising digits and letters. \n\nCustomizable to spare the symbols you deem worthy or expand to a markdown slicing spree.",
+      "description":"Stealthily assasinates rogue bullet points, decimates white space and upends power trip of rising digits and letters.\n\nCustomizable to spare symbols you deem worthy or expand the carnage to an all out markdown slicing spree.",
       "mode": "no-view"
     }
   ],
@@ -23,8 +23,8 @@
       "name": "spareBullets",
       "type": "checkbox",
       "required": false,
-      "title": "Show symbolic mercy on these markers",
-      "description": "Show mercy on the humble bullet points (•, -, *).",
+      "title": "Have mercy on…",
+      "description": "Have mercy on the humble bullet points (•, -, *)",
       "default": false,
       "label": "Bullets"
     },
@@ -42,7 +42,7 @@
       "type": "checkbox",
       "required": false,
       "title": "",
-      "description": "Grant clemency to alphabetic procession (a, b, c)",
+      "description": "Show clemency to alphabetic procession (a, b, c)",
       "default": false,
       "label": "Letters"
     },
@@ -50,8 +50,8 @@
       "name": "killHeaders",
       "type": "checkbox",
       "required": false,
-      "title": "Widen the textual obliteration",
-      "description": "Slice the heads of markdown (#, ##, ###) with extreme prejudice.",
+      "title": "Also target…",
+      "description": "Slice markdown headers (#, ##, ###) with prejudice",
       "default": false,
       "label": "Headers"
     },
@@ -60,7 +60,7 @@
       "type": "checkbox",
       "required": false,
       "title": "",
-      "description": "Target snarky blockquotes (>) for termination.",
+      "description": "Target snarky blockquotes (>) for termination",
       "default": false,
       "label": "Blockquotes"
     },
@@ -69,7 +69,7 @@
       "type": "checkbox",
       "required": false,
       "title": "",
-      "description": "Obliterate oppressive text dungeon (```) code blocks.",
+      "description": "Obliterate code blocks (```) text dungeon",
       "default": false,
       "label": "Code"
     },
@@ -78,7 +78,7 @@
       "type": "checkbox",
       "required": false,
       "title": "",
-      "description": "Chop horizontal rules (---, ***) into pieces.",
+      "description": "Chop horizontal rules (---, ***) into pieces",
       "default": false,
       "label": "Horizontal rules"
     },
@@ -87,7 +87,7 @@
       "type": "checkbox",
       "required": false,
       "title": "",
-      "description": "Destroy hierarchical tabulation.",
+      "description": "Destroy hierarchical tabulation",
       "default": false,
       "label": "Indentation"
     }

@@ -36,23 +36,22 @@ Remove bullet points and markdown elements from the beginning of lines in clipbo
     Blockquote
 
 
-## Configuration
+## Opt-out Features
 
-By default, Kill Bull removes all bullet points and list markers. You can customize this behavior in Raycast preferences:
+By default, Kill Bull removes all bullet points and list markers both numeric and alphabetical. You can customize this behavior in Raycast preferences. Check these preferences to "ON" to have mercy on:
 
-- **Spare Bullet Points** (default: OFF): Keep bullet characters (•, -, *, +)
-- **Spare Numbers** (default: OFF): Keep numbered list markers (1., 1), (1), A., A), (A))
-- **Spare Letters** (default: OFF): Keep letter list markers (a., a), (a))
-- **Kill Indentation** (default: OFF): Destroy hierarchical tabulation
+- Spare **Bullet**: Keep bullet characters (•, -, *, +)
+- Spare **Numbers**: Keep numbered list markers (1., 1), (1), A., A), (A))
+- Spare **Letters**: Keep letter list markers (a., a), (a))
 
 ## Opt-in Features
 
-Additional markdown elements can be removed by enabling these preferences:
+By default, Kill Bull only targets bullet points and list markers, but additional noisy markdown elements can be removed by opting in enabling these preferences:
 
-- **Kill Headers** (default: OFF): Remove markdown headers (#, ##, ###)
-- **Kill Blockquotes** (default: OFF): Remove markdown blockquotes (>)
-- **Kill Code** (default: OFF): Remove code blocks (```, `)
-- **Kill Rules** (default: OFF): Remove horizontal rules (---, ***)
+- Kill **Headers**: Remove markdown headers (#, ##, ###)
+- Kill **Blockquotes**: Remove markdown blockquotes (>)
+- Kill **Code**: Remove code blocks (```, `)
+- Kill **Horizontal rules**: Remove horizontal rules (---, ***)
 
 When a checkbox is checked, the corresponding element will be removed. When unchecked, the element will be preserved.
 
@@ -62,11 +61,11 @@ Kill Bull automatically detects rich text from applications like PowerPoint and 
 
 ## Perfect for
 
-- Cleaning up copied content from presentations
+- Cleaning up copied rich text content from chatbots, webpages
 - Converting bullet lists to plain text
 - Preparing text for documentation
 - Removing formatting while preserving structure
 
 ---
 
-*Kill Bull - Because sometimes you need to eliminate the bullets to get content.* 🗡️
+*Kill Bull - Because sometimes you need to decimate the noise to get to the content.* 🗡️

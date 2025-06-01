@@ -8,21 +8,21 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** Show symbolic mercy on these markers - Show mercy on the humble bullet points (•, -, *). */
+  /** Have mercy on… - Have mercy on the humble bullet points (•, -, *) */
   "spareBullets": boolean,
   /**  - Grant passage to the numeric order (1. 2. 3.) */
   "spareNumbers": boolean,
-  /**  - Grant clemency to alphabetic procession (a, b, c) */
+  /**  - Show clemency to alphabetic procession (a, b, c) */
   "spareLetters": boolean,
-  /** Widen the textual obliteration - Slice the heads of markdown (#, ##, ###) with extreme prejudice. */
+  /** Also target… - Slice markdown headers (#, ##, ###) with prejudice */
   "killHeaders": boolean,
-  /**  - Target snarky blockquotes (>) for termination. */
+  /**  - Target snarky blockquotes (>) for termination */
   "killQuotes": boolean,
-  /**  - Obliterate oppressive text dungeon (```) code blocks. */
+  /**  - Obliterate code blocks (```) text dungeon */
   "killCode": boolean,
-  /**  - Chop horizontal rules (---, ***) into pieces. */
+  /**  - Chop horizontal rules (---, ***) into pieces */
   "killRules": boolean,
-  /**  - Destroy hierarchical tabulation. */
+  /**  - Destroy hierarchical tabulation */
   "killIndentation": boolean
 }
 
