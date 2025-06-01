@@ -9,12 +9,79 @@
   ],
   "license": "MIT",
   "type": "module",
+  "version": "1.0.0",
   "commands": [
     {
       "name": "kill-bull",
       "title": "Kill Bull",
-      "description": "Strip bullets and whitespace from text",
+      "description": "Stealthily eliminates rogue bullet points, slashes white space and upends the conspiratory power trip of rising digits and letters. \nCustomizable to spare the textual allies you deem worthy or unleash a markdown slicing spree.",
       "mode": "no-view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "spareBullets",
+      "type": "checkbox",
+      "required": false,
+      "title": "Markers for Selective Mercy",
+      "description": "Show mercy on the humble bullet points (•, -, *).",
+      "default": false,
+      "label": "Bullets"
+    },
+    {
+      "name": "spareNumbers",
+      "type": "checkbox",
+      "required": false,
+      "title": "",
+      "description": "Grant passage to the numeric order (1. 2. 3.)",
+      "default": false,
+      "label": "Numbers"
+    },
+    {
+      "name": "spareLetters",
+      "type": "checkbox",
+      "required": false,
+      "title": "",
+      "description": "Grant clemency to alphabetic procession (a, b, c)",
+      "default": false,
+      "label": "Letters"
+    },
+    {
+      "name": "killHeaders",
+      "type": "checkbox",
+      "required": false,
+      "title": "Add Collateral Damage",
+      "description": "Slice the heads of markdown (#, ##, ###) with extreme prejudice.",
+      "default": false,
+      "label": "Headers"
+    },
+    {
+      "name": "killQuotes",
+      "type": "checkbox",
+      "required": false,
+      "title": "",
+      "description": "Target snarky blockquotes (>) for termination.",
+      "default": false,
+      "label": "Blockquotes"
+    },
+    {
+      
+      "name": "killCode",
+      "type": "checkbox",
+      "required": false,
+      "title": "",
+      "description": "Obliterate oppressive text dungeon (```) code blocks.",
+      "default": false,
+      "label": "Code blocks"
+    },
+    {
+      "name": "killRules",
+      "type": "checkbox",
+      "required": false,
+      "title": "",
+      "description": "Chop horizontal rules (---, ***) into pieces.",
+      "default": false,
+      "label": "Horizontal rules"
     }
   ],
   "dependencies": {
@@ -40,6 +107,5 @@
     "lint": "ray lint",
     "publish": "npx @raycast/api@latest publish",
     "clean": "rimraf dist"
-  },
-  "version": "1.0.0"
+  }
 }

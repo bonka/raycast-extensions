@@ -5,6 +5,6 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    // Legg til eventuelle egendefinerte regler her
+    // Add custom rules here
   },
 };
