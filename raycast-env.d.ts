@@ -18,7 +18,7 @@ type ExtensionPreferences = {
   "killHeaders": boolean,
   /**  - Target snarky blockquotes (>) for termination */
   "killQuotes": boolean,
-  /**  - Obliterate code blocks (```) text dungeon */
+  /**  - Obliterate code blocks (```) */
   "killCode": boolean,
   /**  - Chop horizontal rules (---, ***) into pieces */
   "killRules": boolean,

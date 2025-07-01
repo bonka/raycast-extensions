@@ -1,7 +1,7 @@
 {
   "name": "kill-bull",
-  "title": "Bullet Point Killer",
-  "description": "Exterminate bullet points and indentation from text with razor sharp precision.",
+  "title": "Slashes Bullets and Formatting",
+  "description": "Exterminate bullet points, markdown and indentation from text with razor precision.",
   "icon": "kill-bull-icon.png",
   "author": "bonka",
   "categories": [
@@ -14,7 +14,7 @@
     {
       "name": "kill-bull",
       "title": "Kill Bull",
-      "description":"Stealthily assasinates rogue bullet points, decimates white space and upends power trip of rising digits and letters.\n\nCustomizable to spare symbols you deem worthy or expand the carnage to an all out markdown slicing spree.",
+      "description":"Stealthily assassinates rogue bullet points, decimates white space and upends power trip of rising digits and letters.\n\nCustomizable to spare symbols you deem worthy or expand the carnage to an all out markdown slicing spree.",
       "mode": "no-view"
     }
   ],
@@ -69,7 +69,7 @@
       "type": "checkbox",
       "required": false,
       "title": "",
-      "description": "Obliterate code blocks (```) text dungeon",
+      "description": "Obliterate code blocks (```)",
       "default": false,
       "label": "Code"
     },
