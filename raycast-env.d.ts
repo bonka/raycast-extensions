@@ -36,6 +36,9 @@ declare namespace Preferences {
 
 declare namespace Arguments {
   /** Arguments passed to the `kill-bull` command */
-  export type KillBull = {}
+  export type KillBull = {
+  /** a, lists, s, headers, q, code... */
+  "mode": string
+}
 }
 

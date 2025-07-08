@@ -1,7 +1,7 @@
 {
   "name": "kill-bull",
   "title": "Slashes Bullets and Formatting",
-  "description": "Exterminate bullet points, markdown and indentation from text with razor precision.",
+  "description": "Exterminate bullet points and structural markdown with razor precision.",
   "icon": "kill-bull-icon.png",
   "author": "bonka",
   "categories": [
@@ -14,8 +14,16 @@
     {
       "name": "kill-bull",
       "title": "Kill Bull",
-      "description":"Stealthily assassinates rogue bullet points, decimates white space and upends power trip of rising digits and letters.\n\nCustomizable to spare symbols you deem worthy or expand the carnage to an all out markdown slicing spree.",
-      "mode": "no-view"
+      "description":"Stealthily assassinates rogue bullet points, decimates white space and upends power trip of rising digits and letters.\n\nCustomizable to spare symbols you deem worthy or expand the carnage to an all out hierarchical slicing spree.",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "mode",
+          "placeholder": "a, lists, s, headers, q, code...",
+          "type": "text",
+          "required": false
+        }
+      ]
     }
   ],
   "preferences": [

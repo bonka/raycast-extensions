@@ -1,4 +1,12 @@
-import { Clipboard, showToast, Toast, closeMainWindow, getSelectedText, getPreferenceValues } from "@raycast/api";
+import {
+  Clipboard,
+  showToast,
+  Toast,
+  closeMainWindow,
+  getSelectedText,
+  getPreferenceValues,
+  LaunchProps,
+} from "@raycast/api";
 
 // Bullet point characters to eliminate
 const BULLET_CHARS = "•\\-*+‣◦▪▫⁃"; // All bullet characters (hyphen escaped for regex)
@@ -31,11 +39,172 @@ interface Preferences {
   killIndentation: boolean;
 }
 
-export default async function Command() {
+interface Arguments {
+  mode?: string;
+}
+
+interface ModeInfo {
+  modeName: string;
+  description: string;
+}
+
+// Parse mode argument and apply preset or specific overrides
+function parseMode(mode: string, basePreferences: Preferences): { preferences: Preferences; modeInfo: ModeInfo } {
+  const preferences = { ...basePreferences };
+  let modeInfo: ModeInfo = { modeName: "Custom", description: "Using preferences" };
+
+  if (!mode?.trim()) {
+    return { preferences, modeInfo };
+  }
+
+  const input = mode.trim().toLowerCase();
+
+  // Preset modes
+  if (matchesAny(input, ["a", "all"])) {
+    // Kill everything
+    preferences.spareBullets = false;
+    preferences.spareNumbers = false;
+    preferences.spareLetters = false;
+    preferences.killHeaders = true;
+    preferences.killQuotes = true;
+    preferences.killCode = true;
+    preferences.killRules = true;
+    preferences.killIndentation = true;
+    modeInfo = { modeName: "All", description: "items destroyed" };
+  } else if (matchesAny(input, ["s", "st", "str", "stru", "struc", "struct", "structu", "structur", "structure"])) {
+    // All structural elements, spare lists
+    preferences.spareBullets = true;
+    preferences.spareNumbers = true;
+    preferences.spareLetters = true;
+    preferences.killHeaders = true;
+    preferences.killQuotes = true;
+    preferences.killCode = true;
+    preferences.killRules = true;
+    preferences.killIndentation = true;
+    modeInfo = { modeName: "Structure", description: "structural elements destroyed" };
+  } else if (matchesAny(input, ["l", "li", "lis", "list", "lists"])) {
+    // Only lists (bullets, numbers, letters)
+    preferences.spareBullets = false;
+    preferences.spareNumbers = false;
+    preferences.spareLetters = false;
+    preferences.killHeaders = false;
+    preferences.killQuotes = false;
+    preferences.killCode = false;
+    preferences.killRules = false;
+    preferences.killIndentation = false;
+    modeInfo = { modeName: "Lists", description: "list elements eliminated" };
+  }
+  // Silent assassination modes (ONLY target specific elements)
+  else if (matchesAny(input, ["h", "he", "hea", "head", "heade", "header", "headers"])) {
+    // Spare everything except headers
+    preferences.spareBullets = true;
+    preferences.spareNumbers = true;
+    preferences.spareLetters = true;
+    preferences.killHeaders = true;
+    preferences.killQuotes = false;
+    preferences.killCode = false;
+    preferences.killRules = false;
+    preferences.killIndentation = false;
+    modeInfo = { modeName: "Silent", description: "header" };
+  } else if (matchesAny(input, ["q", "qu", "quo", "quot", "quote", "quotes"])) {
+    // Spare everything except quotes
+    preferences.spareBullets = true;
+    preferences.spareNumbers = true;
+    preferences.spareLetters = true;
+    preferences.killHeaders = false;
+    preferences.killQuotes = true;
+    preferences.killCode = false;
+    preferences.killRules = false;
+    preferences.killIndentation = false;
+    modeInfo = { modeName: "Silent", description: "blockquote" };
+  } else if (matchesAny(input, ["c", "co", "cod", "code"])) {
+    // Spare everything except code
+    preferences.spareBullets = true;
+    preferences.spareNumbers = true;
+    preferences.spareLetters = true;
+    preferences.killHeaders = false;
+    preferences.killQuotes = false;
+    preferences.killCode = true;
+    preferences.killRules = false;
+    preferences.killIndentation = false;
+    modeInfo = { modeName: "Silent", description: "code block" };
+  } else if (matchesAny(input, ["r", "ru", "rul", "rule", "rules"])) {
+    // Spare everything except rules
+    preferences.spareBullets = true;
+    preferences.spareNumbers = true;
+    preferences.spareLetters = true;
+    preferences.killHeaders = false;
+    preferences.killQuotes = false;
+    preferences.killCode = false;
+    preferences.killRules = true;
+    preferences.killIndentation = false;
+    modeInfo = { modeName: "Silent", description: "ruler" };
+  } else if (matchesAny(input, ["i", "in", "ind", "inde", "inden", "indent", "indentation"])) {
+    // Spare everything except indentation
+    preferences.spareBullets = true;
+    preferences.spareNumbers = true;
+    preferences.spareLetters = true;
+    preferences.killHeaders = false;
+    preferences.killQuotes = false;
+    preferences.killCode = false;
+    preferences.killRules = false;
+    preferences.killIndentation = true;
+    modeInfo = { modeName: "Silent", description: "indentation" };
+  } else {
+    // Unrecognized input, use preferences as-is
+    modeInfo = { modeName: "Custom", description: `Unknown mode: ${mode}` };
+  }
+
+  return { preferences, modeInfo };
+}
+
+// Helper function to check if input matches any of the given options
+function matchesAny(input: string, options: string[]): boolean {
+  return options.some((option) => option.startsWith(input) && input.length > 0);
+}
+
+// Helper function to create proper pluralized silent strike messages
+function createSilentStrikeMessage(count: number, elementType: string): string {
+  if (count === 0) return "Silent Strike: No targets found";
+
+  let verb = "";
+  let noun = "";
+
+  switch (elementType) {
+    case "header":
+      noun = count === 1 ? "header" : "headers";
+      verb = "slashed";
+      break;
+    case "blockquote":
+      noun = count === 1 ? "blockquote" : "blockquotes";
+      verb = "eliminated";
+      break;
+    case "code block":
+      noun = count === 1 ? "code block" : "code blocks";
+      verb = "obliterated";
+      break;
+    case "ruler":
+      noun = count === 1 ? "ruler" : "rulers";
+      verb = "chopped";
+      break;
+    case "indentation":
+      noun = count === 1 ? "indentation" : "indentations";
+      verb = "destroyed";
+      break;
+    default:
+      noun = elementType;
+      verb = "eliminated";
+  }
+
+  return `Silent Strike: ${count} ${noun} ${verb}`;
+}
+
+export default async function Command(props: LaunchProps<{ arguments: Arguments }>) {
   try {
     await closeMainWindow();
 
-    const preferences = getPreferenceValues<Preferences>();
+    const basePreferences = getPreferenceValues<Preferences>();
+    const { preferences, modeInfo } = parseMode(props.arguments.mode || "", basePreferences);
 
     let sourceText = "";
     let hasSelectedText = false;
@@ -66,14 +235,8 @@ export default async function Command() {
     const cleanedText = normalizedText
       .split("\n")
       .map((line, index, array) => {
-        // If killIndentation is enabled, remove any leading tabs
-        if (preferences.killIndentation) {
-          line = line.replace(/^\t+/, "");
-          if (line !== line.replace(/^\t+/, "")) {
-            killed++;
-            if (!killedTypes.includes("indentation")) killedTypes.push("indentation");
-          }
-        }
+        // Track original line for indentation checking
+        const originalLine = line;
 
         // Handle code blocks specially
         if (preferences.killCode) {
@@ -122,7 +285,7 @@ export default async function Command() {
           // Use simpler patterns similar to bullet points
           const patterns = [
             /^\s*\d+[.)]\s/, // 1. 2. 1) 2) etc.
-            /^\s*(\d+)\s/, // (1) (2) (3) etc.
+            /^\s*\(\d+\)\s/, // (1) (2) (3) etc.
           ];
           for (const pattern of patterns) {
             if (pattern.test(line)) {
@@ -140,7 +303,7 @@ export default async function Command() {
           // Use simpler patterns similar to bullet points
           const patterns = [
             /^\s*[a-zA-Z][.)]\s/, // a. A. a) A) etc.
-            /^\s*([a-zA-Z])\s/, // (a) (A) (b) (B) etc.
+            /^\s*\([a-zA-Z]\)\s/, // (a) (A) (b) (B) etc.
           ];
           for (const pattern of patterns) {
             if (pattern.test(line)) {
@@ -156,7 +319,9 @@ export default async function Command() {
         // Then handle other markdown elements (if their checkboxes are checked)
         for (const [key, pattern] of Object.entries(EXCLUSIONS)) {
           if (pattern.test(line)) {
-            const kill = preferences[`kill${key.charAt(0).toUpperCase() + key.slice(1)}` as keyof Preferences];
+            // Map the key to the correct preference name
+            const preferenceKey = key === "quotes" ? "killQuotes" : `kill${key.charAt(0).toUpperCase() + key.slice(1)}`;
+            const kill = preferences[preferenceKey as keyof Preferences];
             if (kill) {
               killed++;
               if (!killedTypes.includes(key)) killedTypes.push(key);
@@ -171,12 +336,16 @@ export default async function Command() {
           }
         }
 
-        // If killIndentation is enabled and the line starts with tabs, remove them
-        if (preferences.killIndentation && line.match(/^\t+/)) {
-          killed++;
-          if (!killedTypes.includes("indentation")) killedTypes.push("indentation");
-          return line.replace(/^\t+/, "");
+        // Handle indentation removal if enabled
+        if (preferences.killIndentation) {
+          const hasLeadingWhitespace = /^\s+/.test(originalLine);
+          if (hasLeadingWhitespace) {
+            killed++;
+            if (!killedTypes.includes("indentation")) killedTypes.push("indentation");
+            return line.replace(/^\s+/, "");
+          }
         }
+
         // Keep everything else unchanged (preserves empty lines and spacing)
         return line;
       })
@@ -189,11 +358,31 @@ export default async function Command() {
       await Clipboard.copy(cleanedText);
     }
 
-    const message = killed > 0 ? `${killed} items killed: ${killedTypes.join(", ")}` : "No matching patterns found";
+    // Build informative title and message
+    let title = "";
+    let message = "";
+
+    // Show mode if specified
+    if (modeInfo.modeName !== "Custom" && props.arguments.mode?.trim()) {
+      if (modeInfo.modeName === "Silent") {
+        title = createSilentStrikeMessage(killed, modeInfo.description);
+      } else {
+        title = `${killed} ${modeInfo.description}`;
+      }
+      message = killedTypes.length > 0 ? killedTypes.join(", ") : "No matches found";
+    } else {
+      if (killed > 0) {
+        title = `${killed} targets eliminated`;
+        message = killedTypes.join(", ");
+      } else {
+        title = hasSelectedText ? "No targets found" : "Clipboard scanned, no targets";
+        message = "";
+      }
+    }
 
     await showToast({
       style: Toast.Style.Success,
-      title: hasSelectedText ? "Text cleaned" : "Clipboard cleaned",
+      title: title,
       message: message,
     });
   } catch (error) {
