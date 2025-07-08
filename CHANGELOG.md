@@ -5,6 +5,33 @@ All notable changes to the Kill Bull extension will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2025-01-08
+
+### Added
+- **Command arguments support** - Use inline commands like `kill bull a` for one-time targeting
+- **Full Assault modes** - Wide-area targeting: `all`, `lists`, `structure`
+- **Silent Strike modes** - Precise targeting: `headers`, `quotes`, `code`, `rules`, `indent`
+- **Fuzzy matching** - Type partial words: `h`, `hea`, `headers` all work
+- **Enhanced toast messages** - Clear feedback with samurai-themed notifications
+- **Comprehensive README** - Added overview, targeting modes, and usage examples
+
+### Changed
+- **Renamed "markdown" mode to "structure"** - More accurate description of what it targets
+- **Removed "basic" mode** - Simplified to just "lists" for clarity
+- **Improved default toast messages** - Now shows "X targets eliminated" with samurai flair
+- **Updated settings descriptions** - Removed confusing "Silent Strike" label from settings
+- **Enhanced placeholder text** - Shorter, clearer examples in command input
+
+### Fixed
+- **Critical regex bugs** - Fixed numbered lists pattern `/^\s*\(\d+\)\s/` and letter lists `/^\s*\([a-zA-Z]\)\s/`
+- **Preference key mapping** - Fixed `quotes` → `killQuotes` mapping issue
+- **Indentation handling** - Consolidated and optimized indentation removal logic
+- **Toast message redundancy** - Removed duplicate words and colons in preset modes
+
+### Removed
+- **Misleading rich text claims** - Corrected documentation to accurately reflect capabilities
+- **"Smart Rich Text Detection" section** - Removed false advertising from README
+
 ## [1.1.0] - 2025-06-01
 
 ### Added
