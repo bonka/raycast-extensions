@@ -19,7 +19,7 @@
       "arguments": [
         {
           "name": "mode",
-          "placeholder": "a, lists, s, headers, q, code...",
+          "placeholder": "shortcode (a,l,h,q,c,r,i)",
           "type": "text",
           "required": false
         }
@@ -88,7 +88,7 @@
       "title": "",
       "description": "Chop horizontal rules (---, ***) into pieces",
       "default": false,
-      "label": "Horizontal rules"
+      "label": "Rules"
     },
     {
       "name": "killIndentation",
